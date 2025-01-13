@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Image Cropper</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    <style>
+        .hidden9 {
+            display: none;
+        }
+
+        .preview-img9 {
+            width: 500px;
+            height: 300px;
+            border: 1px solid #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Important for Cropper to work correctly */
+        }
+    </style>
+</head>
+
+<body>
+    <section class="edit-sec9">
+        <div class="container9">
+            <h2>IMAGE CROPPER</h2>
+            <div class="wrapper9">
+                <div class="editor-panel9">
+                    <div class="filter9">
+                        <label class="title9">ASPECT RATIO</label>
+                        <div class="options9">
+                            <button type="button" data-aspect-ratio="1" class="button9">1:1</button>
+                            <button type="button" data-aspect-ratio="16/9" class="button9">16:9</button>
+                            <button type="button" data-aspect-ratio="4/3" class="button9">4:3</button>
+                            <button type="button" data-aspect-ratio="21/9" class="button9">21:9</button>
+                        </div>
+                        <div class="slider9">
+                            <button type="button" id="manual-crop9" style="width: 100%;">MANUAL CROP</button>
+                        </div>
+                        <div class="switch">
+                            <button type="button" id="crop-cntrol" style="width: 100%;">CROP OFF</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="preview-img9">
+                    <div id="choose-image-section9">
+                        <label class="upload-label9">
+                            <input type="file" class="file-input9" accept="image/*" hidden>
+                        </label>
+                    </div>
+                    <img id="image9" src="placeholder.jpg" alt="preview-img" class="hidden9">
+                </div>
+            </div>
+            <div class="controls9">
+                <button class="reset-filter9">Reset</button>
+                <div class="row9">
+                    <button class="choose-img9">Choose Image</button>
+                    <button class="save-img9">Save Image</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <script>
+        const image9 = document.getElementById('image9');
+        const chooseImgButton9 = document.querySelector('.choose-img9');
+        const fileInput9 = document.querySelector('.file-input9');
+        const aspectRatioButtons9 = document.querySelectorAll('.options9 .button9');
+        const manualCropButton9 = document.getElementById('manual-crop9');
+        const resetFilterButton9 = document.querySelector('.reset-filter9');
+        const saveImgButton9 = document.querySelector('.save-img9');
+        const previewImg9 = document.querySelector('.preview-img9');
+        const chooseImageSection9 = document.getElementById('choose-image-section9');
+        const cropControlButton = document.getElementById('crop-cntrol');
+
+        let cropper;
+        let croppingEnabled = false;
+
+        resetFilterButton9.classList.add('hidden9');
+        saveImgButton9.classList.add('hidden9');
+
+        chooseImgButton9.addEventListener('click', () => fileInput9.click());
+
+        fileInput9.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    image9.onload = () => {
+                        image9.classList.remove('hidden9');
+                        chooseImageSection9.style.display = 'none';
+                        resetFilterButton9.classList.remove('hidden9');
+                        saveImgButton9.classList.remove('hidden9');
+                        previewImg9.style.backgroundImage = "none";
+
+                        if (cropper) {
+                            cropper.destroy();
+                            cropper = null;
+                        }
+
+                        try {
+                            cropper = new Cropper(image9, {
+                                aspectRatio: NaN,
+                                viewMode: 1,
+                                responsive: true,
+                                zoomable: false,
+                                movable: false,
+                                autoCropArea: 1,
+                                ready() {
+                                    this.cropper.crop();
+                                },
+                                cropmove(event) {
+                                    if (event.detail.action === 'move') {
+                                        cropper.setDragMode('move');
+                                    }
+                                }
+                            });
+                        } catch (error) {
+                            console.error("Cropper initialization error:", error);
+                            alert("Error initializing cropper. Please try a different image or check the console for details.");
+                        }
+                    };
+                    image9.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        const getAspectRatio = () => {
+            const activeButton = document.querySelector(".options9 .active9");
+            if (!activeButton) return NaN;
+            const aspectRatioString = activeButton.dataset.aspectRatio;
+            if (aspectRatioString.includes('/')) {
+                const [num, den] = aspectRatioString.split('/').map(Number);
+                return num / den;
+            }
+            return Number(aspectRatioString);
+        };
+
+        aspectRatioButtons9.forEach(button9 => {
+            button9.addEventListener('click', () => {
+                aspectRatioButtons9.forEach(btn9 => btn9.classList.remove('active9'));
+                manualCropButton9.classList.remove("active9");
+                button9.classList.add('active9');
+
+                if (cropper) {
+                    cropper.setAspectRatio(getAspectRatio());
+                }
+            });
+        });
+
+        manualCropButton9.addEventListener('click', () => {
+            aspectRatioButtons9.forEach(btn9 => btn9.classList.remove('active9'));
+            manualCropButton9.classList.add("active9");
+            if (cropper) {
+                cropper.setAspectRatio(NaN);
+            }
+        });
+
+        resetFilterButton9.addEventListener('click', () => {
+            if (cropper) {
+                cropper.destroy();
+                cropper = null;
+            }
+            image9.src = "placeholder.jpg";
+            image9.classList.add('hidden9');
+            chooseImageSection9.style.display = 'flex';
+            resetFilterButton9.classList.add('hidden9');
+            saveImgButton9.classList.add('hidden9');
+        });
+
+        saveImgButton9.addEventListener('click', () => {
+            if (cropper) {
+                const canvas = cropper.getCroppedCanvas();
+                if (canvas) {
+                    const link = document.createElement('a');
+                    link.href = canvas.toDataURL('image/png');
+                    link.download = 'cropped_image.png';
+                    link.click();
+                }
+            }
+        });
+
+        cropControlButton.addEventListener('click', () => {
+            croppingEnabled = !croppingEnabled;
+            cropControlButton.textContent = croppingEnabled ? "CROP OFF" : "CROP ON";
+
+            aspectRatioButtons9.forEach(button => button.disabled = croppingEnabled);
+            manualCropButton9.disabled = croppingEnabled;
+
+            if (croppingEnabled) {
+                if (!cropper) {
+                    startCropping(getAspectRatio());
+                }
+            } else if (cropper) {
+                cropper.destroy();
+                cropper = null;
+                previewImg9.style.backgroundImage = "none";
+            }
+        });
+
+    </script>
+</body>
+
+</html>
