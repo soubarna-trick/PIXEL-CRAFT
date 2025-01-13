@@ -1,0 +1,362 @@
+@import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
+
+*{
+    box-sizing: border-box;
+    font-family: "Electrolize", serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif; /* Example font */
+    line-height: 1.6; /* Example line height */
+}
+
+html{
+    background-color: rgba(22,22,25);
+    font-size: 62.5%;
+    background-attachment: fixed;
+}
+
+h1, h2, h3, h4 , h4 , h5, h6{
+    font-family:  "Electrolize", serif;
+}
+
+p , li , a{
+    font-weight: 400;
+    letter-spacing: 0.1rem;
+}
+
+a{
+    color: white;
+    text-decoration: none;
+}
+
+li{
+    list-style: none;
+}
+
+.container{
+    margin: 0 auto;
+    max-width: 142rm;
+    padding: 9.6rem 2.4rem;
+}
+
+/* .section-navbar{
+    /* background-color:rgba(22,22,25,0.2); */
+    /* background-color: rgba(255, 255, 255, 0.3); */
+    /* background-color: rgba(22,22,25); */
+    /* background-color: transparent; */
+    /* background: transparent; */
+    /* box-shadow: #D3218F25 0px 50px 100px -20px, */
+    /* #77443A30 0px 30px 60px -30px; */
+    /* position: fixed; */
+    /* width: 100%;   */
+    /* z-index: 1; */
+/* } */ 
+
+
+
+
+
+
+
+
+
+
+
+
+/*NAV BAR SECTION END*/
+
+
+
+.section-navbar {
+    width: 100%;
+    z-index: 1;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    padding: 0px 20px;
+    margin-bottom: 40px;
+}
+
+.section-navbar.scrolled {
+    background-color: rgba(22, 22, 25, 0.8);
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+
+.section-navbar .container{
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 50px;
+    margin-right: 50px;
+    padding: 1.8rem 0;
+}
+
+.section-navbar .navbar ul{
+    display: flex;
+    gap: 3.2rem;
+    text-transform: capitalize;
+    
+    & li a{
+        color: white;
+        position: relative;
+        font-size: 15px;
+        font-weight: 600;
+        text-transform: uppercase;
+        transition: 0.5s;
+    }
+
+    & li a:hover{
+        color: rgb(255, 0, 217);
+        font-size: 15px;
+        font-weight: 600;
+        text-shadow: 2px 3px 2px #D3218F60;
+        text-transform: uppercase;
+    }
+}
+
+.spa{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* background: red; */
+    z-index: -1;
+    border-bottom: 2px solid rgb(255, 0, 217);
+    border-radius: 15px;
+    transform: scale(0) translateY(50px);
+    transition: 0.5s;
+    opacity: 0;
+    margin-top: 5px;
+}
+
+.section-navbar .navbar ul li a:hover .spa{
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
+
+
+.account a{
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    position: relative;
+
+    a{
+        color: white;
+        position: relative;
+        font-size: 15px;
+        font-weight: 600;
+        text-transform: uppercase;
+        transition: 0.5s;
+    }
+
+    a:hover{
+        color: rgb(255, 0, 217);
+        font-size: 15px;
+        font-weight: 600;
+        text-shadow: 2px 3px 2px #D3218F60;
+        text-transform: uppercase;
+    }
+}
+
+
+/*NAV BAR END*/
+
+
+
+/*STREAMLIT SECTION START*/
+
+
+.about-us{
+    width: 100%;
+    /* height: 200px; */
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    /* margin-top: 50px; */
+
+    /* background-color: red; */
+    /* display: flex; */
+    /* justify-content: center; */
+    /* align-items: center; */
+    /* padding-bottom: 150px; */
+    /* padding-top: 40px; */
+    font-size: 35px;
+    color: white;
+    text-shadow: 2px 2px 8px #dd13a0;
+
+}
+
+
+.streamlit{
+    width: 70%;
+    height: 80vh;
+    /* padding-top: 90px; */
+    background-color: rgba(121, 17, 128, 0.1);
+    border-radius: 50px;
+    margin: 30px auto;
+    box-shadow: rgb(123, 23, 123,0.6) 0px 2px 4px 0px, rgb(123, 23, 123,0.8) 0px 2px 16px 0px;
+}
+
+
+iframe {
+    width: 100%; /* Adjust as needed */
+    /* height: 600px; Adjust as needed */
+    height: 100%;
+    border: none; /* Remove default border */
+    /* margin: 20px auto; Center the iframe */
+    /* display: block; */
+    border-radius: 50px;
+}
+
+
+
+
+
+
+
+/* STREAMLIT SECTION END */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*FOOTER SECTION*/
+
+
+
+footer {
+    background-color: rgba(0, 0, 0, 0.1);;
+    color: #eee;
+    padding: 30px;
+    padding-bottom: 50px;
+    margin-top: 40px; /* Or adjust as needed */
+    border-top: 1px dotted rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 1px 10px rgb(123, 23, 123);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%; /* Adjust width as needed */
+    max-width: 1200px; /* Optional: Set a maximum width */
+  }
+  
+  .footer-container h3{
+    color: #ff69b4;
+    font-size: 25px;
+    padding: 20px ;
+  }
+  
+  .contact-list {
+    display: flex;
+    /* align-items: center; */
+    justify-content: space-around;
+    /* justify-content: space-around; */
+    /* gap: 70px; */
+    font-size: 15px;
+    margin-bottom: 10px;
+    width: 100%; /* Make contact list take full width of container */
+    max-width: 600px; /* Optional: limit the maximum width */
+  }
+  
+  .contact-list a {
+    text-decoration: none;
+    color: inherit;
+    display: flex; /* align icon and text */
+    align-items: center;
+  }
+  
+  .contact-list i {
+    margin-right: 5px; /* space between icon and text */
+  }
+  
+  .contact-list a:hover {
+    color: #ff69b4;
+  }
+  
+  .social-icons {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 20px; /* space between icons */
+  }
+  
+  .social-icons a {
+    display: inline-flex; /* Use inline-flex to center the icon */
+    align-items: center;
+    justify-content: center;
+    width: 40px; /* Set a fixed width and height for circular icons */
+    height: 40px;
+    border-radius: 50%; /* Make them circular */
+    margin: 0; /* Remove default margins */
+    color: #eee;
+    font-size: 20px;
+    text-decoration: none;
+    transition: color 0.3s, transform 0.3s, background-color 0.3s;
+    border: 1px solid #ff69b4; /* Add a border */
+  }
+  
+  .social-icons a:hover {
+    color: #111;
+    background-color: #ff69b4; /* Add a background on hover */
+    transform: scale(1.1);
+  }
+  
+  .copyright {
+    margin-top: 10px;
+    font-size: medium;
+  }
+  
+  /* Responsive adjustments (optional) */
+  @media (max-width: 600px) { /* Adjust breakpoint as needed */
+    .contact-list {
+        flex-direction: column;
+        align-items: center;
+        text-align: center; /* Center text within each contact item */
+        gap: 10px;
+    }
+  }
+
+  /*FOOTER SECTION END*/
+
+
+
+
+

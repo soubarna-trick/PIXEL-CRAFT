@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Image Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    <style>
+        .hidden9 {
+            display: none;
+        }
+
+        .preview-img9 {
+            width: 500px;
+            height: 300px;
+            border: 1px solid #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Important for Cropper to work correctly */
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- /*NAV BAR START*/ -->
+
+
+    <header class="section-navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <a href="index.html">
+                    <img src="../images/logo-new.png" alt="Imaginia Logo" width="60%" height="auto">
+                </a>
+            </div>
+            <nav class="navbar">
+                <ul>
+                    <!-- <li class="nav-item"><a href="/">Home <span class="spa"></span></a></li> -->
+                    <li class="nav-item"><a href="../index.html">Home <span class="spa"></span></a></li>
+                    <li class="nav-item"><a href="#gallery">Gallery <span class="spa"></span></a></li>
+                    <li class="nav-item"><a href="#feature">Design Studio <span class="spa"></span></a></li>
+                    <li class="nav-item"><a href="#About-Us">About Us <span class="spa"></span></a></li>
+                    <li class="nav-item"><a href="/">Contact us  <span class="spa"></span></a></li>
+                </ul>
+            </nav>
+
+            <div class="account">
+                <a href="#">account </a>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- /*NAV BAR END*/ -->
+
+    <div class="about-us" >
+        <h2 id = "About-Us">AI Image Generator</h2>
+    </div>
+
+
+
+    <!-- /*STREAMLIT APP SECTION START*/ -->
+
+    <div class="streamlit">
+
+        <iframe src="http://localhost:8501/" title="Streamlit App"></iframe>
+
+    </div>
+
+
+
+
+
+
+    <!-- /*STREAMLIT APP SECTION START END*/ -->
+
+
+
+
+
+
+    <!-- /*FOOTER SECTION START*/ -->
+    <footer>
+        <div class="footer-container">  <h3>Contact Us</h3>
+          <div class="contact-list">
+            <a href="mailto:fakeemail@example.com">
+              <i class="fas fa-envelope"></i> Email: fakeemail@example.com
+            </a>
+            <a href="tel:+1-555-123-4567">
+              <i class="fas fa-phone"></i> Phone: +1-555-123-4567
+            </a>
+          </div>
+          <div class="social-icons">
+            <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+          </div>
+          <div class="copyright">
+            &copy; 2023 Your Company Name. All rights reserved.
+          </div>
+        </div>
+      </footer>
+    <!-- /*FOOTER SECTION END*/ -->
+    
+
+
+
+    <!-- /*HOVER ANIMATION*/ -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <script>
+        const image9 = document.getElementById('image9');
+        const chooseImgButton9 = document.querySelector('.choose-img9');
+        const fileInput9 = document.querySelector('.file-input9');
+        const aspectRatioButtons9 = document.querySelectorAll('.options9 .button9');
+        const manualCropButton9 = document.getElementById('manual-crop9');
+        const resetFilterButton9 = document.querySelector('.reset-filter9');
+        const saveImgButton9 = document.querySelector('.save-img9');
+        const previewImg9 = document.querySelector('.preview-img9');
+        const chooseImageSection9 = document.getElementById('choose-image-section9');
+        const cropControlButton = document.getElementById('crop-cntrol');
+
+        let cropper;
+        let croppingEnabled = false;
+
+        resetFilterButton9.classList.add('hidden9');
+        saveImgButton9.classList.add('hidden9');
+
+        chooseImgButton9.addEventListener('click', () => fileInput9.click());
+
+        fileInput9.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    image9.onload = () => {
+                        image9.classList.remove('hidden9');
+                        chooseImageSection9.style.display = 'none';
+                        resetFilterButton9.classList.remove('hidden9');
+                        saveImgButton9.classList.remove('hidden9');
+                        previewImg9.style.backgroundImage = "none";
+
+                        if (cropper) {
+                            cropper.destroy();
+                            cropper = null;
+                        }
+
+                        try {
+                            cropper = new Cropper(image9, {
+                                aspectRatio: NaN,
+                                viewMode: 1,
+                                responsive: true,
+                                zoomable: false,
+                                movable: false,
+                                autoCropArea: 1,
+                                ready() {
+                                    this.cropper.crop();
+                                },
+                                cropmove(event) {
+                                    if (event.detail.action === 'move') {
+                                        cropper.setDragMode('move');
+                                    }
+                                }
+                            });
+                        } catch (error) {
+                            console.error("Cropper initialization error:", error);
+                            alert("Error initializing cropper. Please try a different image or check the console for details.");
+                        }
+                    };
+                    image9.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        const getAspectRatio = () => {
+            const activeButton = document.querySelector(".options9 .active9");
+            if (!activeButton) return NaN;
+            const aspectRatioString = activeButton.dataset.aspectRatio;
+            if (aspectRatioString.includes('/')) {
+                const [num, den] = aspectRatioString.split('/').map(Number);
+                return num / den;
+            }
+            return Number(aspectRatioString);
+        };
+
+        aspectRatioButtons9.forEach(button9 => {
+            button9.addEventListener('click', () => {
+                aspectRatioButtons9.forEach(btn9 => btn9.classList.remove('active9'));
+                manualCropButton9.classList.remove("active9");
+                button9.classList.add('active9');
+
+                if (cropper) {
+                    cropper.setAspectRatio(getAspectRatio());
+                }
+            });
+        });
+
+        manualCropButton9.addEventListener('click', () => {
+            aspectRatioButtons9.forEach(btn9 => btn9.classList.remove('active9'));
+            manualCropButton9.classList.add("active9");
+            if (cropper) {
+                cropper.setAspectRatio(NaN);
+            }
+        });
+
+        resetFilterButton9.addEventListener('click', () => {
+            if (cropper) {
+                cropper.destroy();
+                cropper = null;
+            }
+            image9.src = "placeholder.jpg";
+            image9.classList.add('hidden9');
+            chooseImageSection9.style.display = 'flex';
+            resetFilterButton9.classList.add('hidden9');
+            saveImgButton9.classList.add('hidden9');
+        });
+
+        saveImgButton9.addEventListener('click', () => {
+            if (cropper) {
+                const canvas = cropper.getCroppedCanvas();
+                if (canvas) {
+                    const link = document.createElement('a');
+                    link.href = canvas.toDataURL('image/png');
+                    link.download = 'cropped_image.png';
+                    link.click();
+                }
+            }
+        });
+
+        cropControlButton.addEventListener('click', () => {
+            croppingEnabled = !croppingEnabled;
+            cropControlButton.textContent = croppingEnabled ? "CROP OFF" : "CROP ON";
+
+            aspectRatioButtons9.forEach(button => button.disabled = croppingEnabled);
+            manualCropButton9.disabled = croppingEnabled;
+
+            if (croppingEnabled) {
+                if (!cropper) {
+                    startCropping(getAspectRatio());
+                }
+            } else if (cropper) {
+                cropper.destroy();
+                cropper = null;
+                previewImg9.style.backgroundImage = "none";
+            }
+        });
+
+    </script>
+</body>
+
+</html>
