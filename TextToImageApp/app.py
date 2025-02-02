@@ -4,10 +4,17 @@ from gradio_client import Client
 from PIL import Image as PILImage
 import io
 import base64
+from dotenv import load_dotenv
 
-# Set HF Token (REPLACE WITH YOUR ACTUAL TOKEN)
-os.environ['HF_TOKEN'] = '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'  # Replace with your token
-client = Client("black-forest-labs/FLUX.1-schnell")
+# Load environment variables from .env file
+load_dotenv()
+
+# Set HF Token
+hf_token = os.getenv('HF_TOKEN')
+if hf_token is None:
+    raise ValueError("Hugging Face token not found. Please set it in the .env file.")
+
+client = Client("black-forest-labs/FLUX.1-schnell", hf_token)
 
 st.markdown(
     """
